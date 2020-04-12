@@ -4,7 +4,7 @@ CordCloud签到脚本一键运行签到，每次签到50到400MB的流量，一�
 
 ## 安装
 - 下载脚本  
-`git clone `
+`git clone https://github.com/DeaglePC/CordCloud-Check-in.git`
 - 安装依赖  
 `pip install -r requirements.txt`
 
