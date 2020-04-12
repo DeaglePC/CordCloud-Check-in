@@ -9,11 +9,6 @@ CordCloud签到脚本一键运行签到，每次签到50到400MB的流量，一�
 `pip install -r requirements.txt`
 
 ## 写配置文件
-- 拿到用于发送请求的登录密码，这里不能用密码直接登录，要用CordCloud转换后的一个密码  
-浏览器打开登录页面，F12打开开发者工具，点击登录，找到自己的email以及passwd参数
-![1.png](1.png)
-![2.png](2.png)
-
 - 把拿到的登录参数填到`config.py`  
 比如我的email是`tom@qq.com`
 passwd是`xxooxxoo`
