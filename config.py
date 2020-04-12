@@ -11,7 +11,7 @@ LOGIN_FORM = {
     "code": "",
 }
 
-ENABLE_SERVER_JIANG = True
+ENABLE_SERVER_JIANG = False
 SERVER_CHAN_KEY = os.getenv("SERVER_JIANG_KEY", "")
 
 LOG_FILE = "./cc_auto_check_in.log"
