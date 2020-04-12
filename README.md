@@ -9,7 +9,7 @@ CordCloud签到脚本一键运行签到，每次签到50到400MB的流量，一�
 `pip install -r requirements.txt`
 
 ## 写配置文件
-- 把拿到的登录参数填到`config.py`  
+- 把你自己的登录参数（邮箱，密码）填到`config.py`  
 比如我的email是`tom@qq.com`
 passwd是`xxooxxoo`
 ```python
