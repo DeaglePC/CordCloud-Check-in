@@ -45,8 +45,8 @@ LOG_FILE = "./cc_auto_check_in.log"
 `ENABLE_SERVER_JIANG = False`可以关闭server酱提示，默认关闭  
 [关于server酱](http://sc.ftqq.com/3.version)
 ```python
-ENABLE_SERVER_JIANG = True
-SERVER_JIANG_KEY = os.getenv("SERVER_JIANG_KEY", "xxxxxxx")
+ENABLE_SERVER_CHAN = True
+SERVER_CHAN_KEY = os.getenv("SERVER_JIANG_KEY", "xxxxxxx")
 ```
 ![server_chan.jpg](server_chan.jpg)
 

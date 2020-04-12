@@ -4,7 +4,7 @@ import logging
 
 from requests import HTTPError
 
-from config import LOGIN_FORM, LOG_FILE, SERVER_CHAN_KEY, ENABLE_SERVER_JIANG, PROXIES
+from config import LOGIN_FORM, LOG_FILE, SERVER_CHAN_KEY, ENABLE_SERVER_CHAN, PROXIES
 
 formatter = logging.Formatter('[%(levelname)s] [%(asctime)s] %(message)s', datefmt='%Y-%m-%d %I:%M:%S %p')
 file_handler = logging.FileHandler(filename=LOG_FILE, encoding='utf-8')
@@ -35,7 +35,7 @@ class CordCloudClient:
     def __init__(self, proxies=None):
         self._sess = requests.session()
         self.proxies = proxies
-        self._server_chan = ServerJiang(SERVER_CHAN_KEY) if ENABLE_SERVER_JIANG else None
+        self._server_chan = ServerJiang(SERVER_CHAN_KEY) if ENABLE_SERVER_CHAN else None
 
     @staticmethod
     def _get_msg(resp_content: bytes):
