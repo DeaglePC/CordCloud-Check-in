@@ -58,6 +58,7 @@ SERVER_JIANG_KEY = os.getenv("SERVER_JIANG_KEY", "xxxxxxx")
 ```
 #### Linux/Unix
 ```bash
+chmod +x cc_auto_check_in.sh
 ./cc_auto_check_in.sh
 ```
 
