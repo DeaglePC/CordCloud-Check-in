@@ -1,10 +1,12 @@
+# coding: utf-8
 import requests
 import json
 import logging
 
+import yagmail
 from requests import HTTPError
 
-from config import LOGIN_FORM, LOG_FILE, SERVER_CHAN_KEY, ENABLE_SERVER_CHAN, PROXIES
+from config import LOGIN_FORM, LOG_FILE, SERVER_CHAN_CONFIG, PROXIES, EMAIL_CONFIG
 
 formatter = logging.Formatter('[%(levelname)s] [%(asctime)s] %(message)s', datefmt='%Y-%m-%d %I:%M:%S %p')
 file_handler = logging.FileHandler(filename=LOG_FILE, encoding='utf-8')
@@ -14,8 +16,10 @@ logger = logging.getLogger()
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
 
+NOTIFY_MSG_PREFIX = "[CordCloud 续命通知]"
 
-class ServerJiang:
+
+class ServerChan:
     """
     server 酱通知
     """
@@ -32,21 +36,50 @@ class CordCloudClient:
     LOGIN_URL = "https://cordcloud.org/auth/login"
     CHECK_IN_URL = "https://cordcloud.org/user/checkin"
 
-    def __init__(self, proxies=None):
+    def __init__(self, proxies=None, server_chan_config=None, email_config=None):
         self._sess = requests.session()
+
         self.proxies = proxies
-        self._server_chan = ServerJiang(SERVER_CHAN_KEY) if ENABLE_SERVER_CHAN else None
+        self._server_chan_config = server_chan_config
+        self._email_config = email_config
+
+        self._server_chan = None
+        self._yagmail = None
+
+        self._init_server_chan()
+        self._init_yagmail()
+
+    def _init_server_chan(self):
+        self._server_chan = ServerChan(
+            self._server_chan_config["key"]
+        ) if self._server_chan_config["enable"] else None
+
+    def _init_yagmail(self):
+        self._yagmail = yagmail.SMTP(
+            user=EMAIL_CONFIG["user"],
+            password=EMAIL_CONFIG["pw"],
+            host=EMAIL_CONFIG["host"],
+            port=EMAIL_CONFIG["port"],
+        ) if self._email_config["enable"] else None
 
     @staticmethod
     def _get_msg(resp_content: bytes):
         return json.loads(str(resp_content, encoding='utf-8')).get("msg", "")
 
     def _notify(self, msg):
-        try:
-            if self._server_chan:
-                self._server_chan.send_msg(text="[CordCloud 续命通知] " + msg)
-        except Exception as err:
-            logger.error(str(err))
+        text = ": ".join([NOTIFY_MSG_PREFIX, msg])
+
+        if self._server_chan:
+            try:
+                self._server_chan.send_msg(text=text)
+            except Exception as err:
+                logger.error(str(err))
+
+        if self._yagmail:
+            try:
+                self._yagmail.send(self._email_config["receivers"], text, text)
+            except Exception as err:
+                logger.error(str(err))
 
     def _login(self) -> bool:
         resp = self._sess.post(self.LOGIN_URL, data=LOGIN_FORM, proxies=self.proxies)
@@ -83,4 +116,8 @@ class CordCloudClient:
 
 
 if __name__ == '__main__':
-    CordCloudClient(PROXIES).check_in()
+    CordCloudClient(
+        proxies=PROXIES,
+        server_chan_config=SERVER_CHAN_CONFIG,
+        email_config=EMAIL_CONFIG,
+    ).check_in()
