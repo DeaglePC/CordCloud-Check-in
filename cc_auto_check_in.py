@@ -6,10 +6,10 @@ import logging
 import yagmail
 from requests import HTTPError
 
-from config import LOGIN_FORM, LOG_FILE, SERVER_CHAN_CONFIG, PROXIES, EMAIL_CONFIG
+import config as cfg
 
 formatter = logging.Formatter('[%(levelname)s] [%(asctime)s] %(message)s', datefmt='%Y-%m-%d %I:%M:%S %p')
-file_handler = logging.FileHandler(filename=LOG_FILE, encoding='utf-8')
+file_handler = logging.FileHandler(filename=cfg.LOG_FILE, encoding='utf-8')
 file_handler.setFormatter(formatter)
 
 logger = logging.getLogger()
@@ -36,7 +36,9 @@ class CordCloudClient:
     LOGIN_URL = "https://cordcloud.org/auth/login"
     CHECK_IN_URL = "https://cordcloud.org/user/checkin"
 
-    def __init__(self, proxies=None, server_chan_config=None, email_config=None):
+    def __init__(self, login_form, host="", proxies=None, server_chan_config=None, email_config=None):
+        self._login_form = login_form
+        self._host = host if host else "cordcloud.org"
         self._sess = requests.session()
 
         self.proxies = proxies
@@ -56,10 +58,10 @@ class CordCloudClient:
 
     def _init_yagmail(self):
         self._yagmail = yagmail.SMTP(
-            user=EMAIL_CONFIG["user"],
-            password=EMAIL_CONFIG["pw"],
-            host=EMAIL_CONFIG["host"],
-            port=EMAIL_CONFIG["port"],
+            user=self._email_config["user"],
+            password=self._email_config["pw"],
+            host=self._email_config["host"],
+            port=self._email_config["port"],
         ) if self._email_config["enable"] else None
 
     @staticmethod
@@ -82,7 +84,7 @@ class CordCloudClient:
                 logger.error(str(err))
 
     def _login(self) -> bool:
-        resp = self._sess.post(self.LOGIN_URL, data=LOGIN_FORM, proxies=self.proxies)
+        resp = self._sess.post(self.LOGIN_URL, data=self._login_form, proxies=self.proxies)
         try:
             resp.raise_for_status()
         except HTTPError as err:
@@ -117,7 +119,9 @@ class CordCloudClient:
 
 if __name__ == '__main__':
     CordCloudClient(
-        proxies=PROXIES,
-        server_chan_config=SERVER_CHAN_CONFIG,
-        email_config=EMAIL_CONFIG,
+        cfg.LOGIN_FORM,
+        host=cfg.CC_HOST,
+        proxies=cfg.PROXIES,
+        server_chan_config=cfg.SERVER_CHAN_CONFIG,
+        email_config=cfg.EMAIL_CONFIG,
     ).check_in()
