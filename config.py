@@ -1,12 +1,12 @@
 import os
 
-# 设置其他域名，也许需要代理才可以访问， 比如：cordcloud.site
+# 设置其他域名，也许需要代理才可以访问， 比如：cordcloud.org
 CC_HOST = ""
 
 # 看情况是否开启代理
 PROXIES = {
-    "http": "http://127.0.0.1:7890",
-    "https": "http://127.0.0.1:7890",
+    # "http": "http://127.0.0.1:7890",
+    # "https": "http://127.0.0.1:7890",
 }
 
 # 登录CordCloud的帐号密码

@@ -33,12 +33,12 @@ class ServerChan:
 
 
 class CordCloudClient:
-    LOGIN_URL = "https://cordcloud.org/auth/login"
-    CHECK_IN_URL = "https://cordcloud.org/user/checkin"
+    LOGIN_PATH = "/auth/login"
+    CHECK_IN_PATH = "/user/checkin"
 
     def __init__(self, login_form, host="", proxies=None, server_chan_config=None, email_config=None):
         self._login_form = login_form
-        self._host = host if host else "cordcloud.org"
+        self._host = host if host else "cordcloud.site"
         self._sess = requests.session()
 
         self.proxies = proxies
@@ -84,7 +84,11 @@ class CordCloudClient:
                 logger.error(str(err))
 
     def _login(self) -> bool:
-        resp = self._sess.post(self.LOGIN_URL, data=self._login_form, proxies=self.proxies)
+        resp = self._sess.post(
+            "".join(["https://", self._host, self.LOGIN_PATH]),
+            data=self._login_form,
+            proxies=self.proxies,
+        )
         try:
             resp.raise_for_status()
         except HTTPError as err:
@@ -97,7 +101,7 @@ class CordCloudClient:
         return True
 
     def _check_in(self):
-        resp = self._sess.post(self.CHECK_IN_URL, proxies=self.proxies)
+        resp = self._sess.post("".join(["https://", self._host, self.CHECK_IN_PATH]), proxies=self.proxies)
         try:
             resp.raise_for_status()
         except HTTPError as err:
