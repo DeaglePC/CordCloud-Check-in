@@ -40,8 +40,11 @@ LOG_FILE = "./cc_auto_check_in.log"
 `ENABLE_SERVER_JIANG = False`可以关闭server酱提示，默认关闭  
 [关于server酱](http://sc.ftqq.com/3.version)
 ```python
-ENABLE_SERVER_CHAN = True
-SERVER_CHAN_KEY = os.getenv("SERVER_JIANG_KEY", "xxxxxxx")
+# server酱配置(非必填)
+SERVER_CHAN_CONFIG = {
+    "enable": False,  # True打开
+    "key": os.getenv("SERVER_CHAN_KEY", "")
+}
 ```
 ![server_chan.jpg](server_chan.jpg)
 
@@ -59,3 +62,6 @@ chmod +x cc_auto_check_in.sh
 
 ### 配置开机启动或者定时启动
 这个就不用说了吧，如果不会可以去搜一下
+
+## 效果
+![ec.png](ec.png)
