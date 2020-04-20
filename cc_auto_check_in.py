@@ -6,7 +6,7 @@ import logging
 import yagmail
 from requests import HTTPError
 
-CONFIG_FILE_NAME = "config.json1"
+CONFIG_FILE_NAME = "config.json"
 
 
 class Config:
