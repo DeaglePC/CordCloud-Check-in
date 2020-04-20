@@ -1,0 +1,23 @@
+{
+  "LOGIN_FORM": {
+    "email": "",
+    "passwd": "",
+    "code": ""
+  },
+  "LOG_FILE": "./cc_auto_check_in.log",
+  "CC_HOST": "",
+  "PROXIES": {},
+  "SERVER_CHAN_CONFIG": {
+    "enable": false,
+    "key": ""
+  },
+  "EMAIL_CONFIG": {
+    "enable": false,
+    "user": "",
+    "pw": "",
+    "host": "",
+    "port": "",
+    "receivers": [
+    ]
+  }
+}

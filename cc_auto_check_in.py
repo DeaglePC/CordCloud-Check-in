@@ -6,7 +6,24 @@ import logging
 import yagmail
 from requests import HTTPError
 
-import config as cfg
+CONFIG_FILE_NAME = "config.json1"
+
+
+class Config:
+    def __init__(self, config_file: str):
+        with open(config_file, "r") as f:
+            data = f.read()
+
+        self._config = json.loads(data)
+        for k in self._config:
+            self.__setattr__(k, self._config[k])
+
+
+try:
+    cfg = Config(CONFIG_FILE_NAME)
+except Exception as err:
+    print("{}: use config.py now".format(err))
+    import config as cfg
 
 formatter = logging.Formatter('[%(levelname)s] [%(asctime)s] %(message)s', datefmt='%Y-%m-%d %I:%M:%S %p')
 file_handler = logging.FileHandler(filename=cfg.LOG_FILE, encoding='utf-8')
