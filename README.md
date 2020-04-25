@@ -17,7 +17,7 @@ CordCloud签到脚本一键运行签到，每次签到50到400MB的流量，一�
 
 ## 写配置文件
 ### Windows
-- 打开`config.json`文件
+- 参照`config.json.bak`文件，新建`config.json`
 - 填写登录参数（邮箱，密码）
 ```json
 {
