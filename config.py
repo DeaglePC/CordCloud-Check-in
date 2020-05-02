@@ -32,5 +32,5 @@ EMAIL_CONFIG = {
     "pw": os.getenv("CC_MAIL_PW", ""),  # 用于发送通知的邮箱密码
     "host": os.getenv("CC_MAIL_HOST", ""),  # SMTP服务的host
     "port": os.getenv("CC_MAIL_PORT"),  # SMTP服务的端口，默认端口可不填
-    "receivers": ["dpc@deaglepc.cn"],  # 接收人邮箱地址
+    "receivers": [""],  # 接收人邮箱地址
 }
