@@ -102,7 +102,7 @@ class CordCloudClient:
 
     def _login(self) -> bool:
         resp = self._sess.post(
-            "".join(["https://", self._host, self.LOGIN_PATH]),
+            "".join(["http://", self._host, self.LOGIN_PATH]),
             data=self._login_form,
             proxies=self.proxies,
         )
@@ -118,7 +118,7 @@ class CordCloudClient:
         return True
 
     def _check_in(self):
-        resp = self._sess.post("".join(["https://", self._host, self.CHECK_IN_PATH]), proxies=self.proxies)
+        resp = self._sess.post("".join(["http://", self._host, self.CHECK_IN_PATH]), proxies=self.proxies)
         try:
             resp.raise_for_status()
         except HTTPError as err:
